@@ -1,10 +1,14 @@
 import java.io.*;
+import java.rmi.server.UnicastRemoteObject;
+import java.rmi.RemoteException;
 
-public class Bin1Server {
+public class Bin1 extends UnicastRemoteObject implements InterfaceBin {
 
-  public byte[][] bin(byte[][] pic, byte[][] rpic, int Xdim, int Ydim, int init_x, int init_y) {
-	// byte rpic[][] = new byte[512][512];
+	public Bin1() throws RemoteException { 
+		//super() is allways called!
+    }
 
+  public byte[][] bin(byte[][] pic, byte[][] rpic, int Xdim, int Ydim, int init_x, int init_y) throws RemoteException {
 	float desvio;
 	int tot, media, sum2, dif, pixeis_mask, mask_d;
 	int i, j, i1,j1;
@@ -48,4 +52,5 @@ public class Bin1Server {
 	}  
       return(rpic);
   }
+  
 }

@@ -4,6 +4,8 @@ import java.awt.event.*;
 import java.awt.image.*;
 import java.util.*;
 import java.io.*;
+import java.rmi.Naming;
+import java.rmi.RemoteException;
 
 public class Bin1Client extends JFrame {
 
@@ -16,7 +18,7 @@ public class Bin1Client extends JFrame {
 
     BufferedImage img = new BufferedImage(IMG_SIZE, IMG_SIZE,BufferedImage.TYPE_INT_RGB);
  
-    public void start(String img_name) {
+    public void start(String img_name, InterfaceBin binrzt) throws Exception {
         setTitle("Binarization");
         setSize(IMG_SIZE,IMG_SIZE+25+40);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -44,21 +46,21 @@ public class Bin1Client extends JFrame {
             
         double start = new Date().getTime();
         // esquerda superior
-        rpic = myServer.bin(pic, rpic, 266, 266, 10, 10);
+        rpic = binrzt.bin(pic, rpic, 266, 266, 10, 10);
         System.out.println("Demorou " + (new Date().getTime()-start) + " ms");
 
         // esquerda inferior
-        rpic = myServer.bin(pic, rpic, 512, 266, 256, 10);
+        rpic = binrzt.bin(pic, rpic, 512, 266, 256, 10);
         System.out.println("Demorou " + (new Date().getTime()-start) + " ms");
 
 
         // direita superior
-        rpic = myServer.bin(pic, rpic, 266, 512, 10, 256);
+        rpic = binrzt.bin(pic, rpic, 266, 512, 10, 256);
         System.out.println("Demorou " + (new Date().getTime()-start) + " ms");
 
 
         // direita inferior
-        rpic = myServer.bin(pic, rpic, 512, 512, 256, 256);
+        rpic = binrzt.bin(pic, rpic, 512, 512, 256, 256);
         System.out.println("Demorou " + (new Date().getTime()-start) + " ms");
 
         repaint();
@@ -88,9 +90,12 @@ public class Bin1Client extends JFrame {
         return img;
     }
 
-    public static void main(String[] arg) {
+    public static void main(String[] arg) throws Exception {
         System.out.println(arg[0]);
         Bin1Client mc = new Bin1Client();
-        mc.start(arg[0]);
+
+        String objName = "rmi://localhost:1099/Bin";
+        InterfaceBin binrzt = (InterfaceBin) Naming.lookup(objName);
+        mc.start(arg[0], binrzt);
     }
 }
