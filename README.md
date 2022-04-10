@@ -11,10 +11,13 @@ rmic Bin1
 ```
 ### Executar o servidor
 ```
-java ServidorRMI
+java ServidorRMI "rmi://$hostname:$port/Bin"
 ```
 
 ### Executar o cliente
 ```
-rmic Bin1Client "nome_da_imagem.JPG"
+rmic Bin1Client "nome_da_imagem.JPG" "$host1" "$host2" "$host3" "$host4"
 ```
+
+A string host deve ter o formato "rmi://$hostname:$port/Bin".
+
