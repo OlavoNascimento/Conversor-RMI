@@ -5,6 +5,10 @@ import java.util.concurrent.ExecutorService;
 import javax.swing.*;
 import java.awt.image.*;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+import javax.imageio.ImageIO;
+
 public class Bin1Client extends JFrame {
 
     final int IMG_SIZE = 512;
@@ -65,6 +69,9 @@ public class Bin1Client extends JFrame {
         }
 
         repaint();
+
+        File file = new File("imageResult.png");
+        ImageIO.write(img, "png", file);
     }
 
     public void paint(Graphics g) {
